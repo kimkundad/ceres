@@ -11,6 +11,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\branch;
+use App\Models\video;
 
 class CategoryController extends Controller
 {
@@ -24,12 +25,12 @@ class CategoryController extends Controller
         //
         $objs = category::paginate(30);
 
-        // if(isset($objs)){
-        //     foreach($objs as $u){
-        //         $count = images::where('cat_id', $u->id)->count();
-        //         $u->option = $count;
-        //     }
-        // }
+        if(isset($objs)){
+            foreach($objs as $u){
+                $count = video::where('cat_id', $u->id)->count();
+                $u->option = $count;
+            }
+        }
 
         $objs->setPath('');
         $data['objs'] = $objs;

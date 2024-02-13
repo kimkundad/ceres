@@ -7,6 +7,7 @@ use App\Models\branch;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class BranchController extends Controller
 {
@@ -19,6 +20,14 @@ class BranchController extends Controller
     {
         //
         $objs = branch::paginate(30);
+
+        if(isset($objs)){
+            foreach($objs as $u){
+                $count = User::where('shop_id', $u->id)->count();
+                $u->option = $count;
+            }
+        }
+
         $objs->setPath('');
         $data['objs'] = $objs;
         return view('admin.branch.index', compact('objs'));
